@@ -1,4 +1,35 @@
-this is a test
+# Simple Quaternions (`squaternion`)
+
+Generally I don't need all of the capabilities (or complexity) of `quaternion`
+math libraries. Basically I just need a way to convert between Euler and
+Quaternion representations and have a nice way to print them out.
+
+## Install
+
+  pip install squaternion
+
+## Usage
+
+```python
+from squaternion import euler2quat, quat2euler, Quaternion
+
+# if you know the values you want Quaternion(w, x,y,z)
+q = Quaternion(1,0,0,0)
+
+# however you typically don't think in 4 dimensions, so create from
+# euler angles euler2quat(roll, pitch, yaw), default is radians, but set
+# degrees true if giving degrees
+q = euler2quat(0, -90, 100, degrees=True)
+
+# can get the euler angles back out in degrees (set to True)
+e = quat2euler(*q, degrees=True)
+```
+
+## References
+
+- [Wikipedia Convert Between Quaternions and Euler Angles](https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles)
+- [Wikipedia Euler Angle Definitions](https://en.wikipedia.org/wiki/Euler_angles#Conventions_2)
+- [Wikipedia Gimbal Lock](https://en.wikipedia.org/wiki/Gimbal_lock)
 
 # MIT License
 
