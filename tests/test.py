@@ -23,13 +23,13 @@ def test_norm_divzero():
 
 @raises(TypeError)
 def test_norm_args():
-    q = Quaternion(0, 0, 0, 0)
+    q = Quaternion(1, 0, 0, 0)
     q = quatNorm(q)
 
 
 @raises(TypeError)
 def test_quaternion_args():
-    q = Quaternion(0)
+    Quaternion(0)
 
 
 def test_quaternion_zero():

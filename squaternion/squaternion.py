@@ -1,8 +1,9 @@
 from __future__ import print_function, division
-from math import sin, cos, atan2, pi, sqrt, asin, acos
+from math import sin, cos, atan2, pi, sqrt, asin
 from collections import namedtuple
 
 Quaternion = namedtuple('Quaternion', 'w x y z')
+
 
 def quatNorm(w, x, y, z):
     m = sqrt(w**2 + x**2 + y**2 + z**2)
@@ -18,6 +19,7 @@ def quatNorm(w, x, y, z):
     z /= m
 
     return Quaternion(w, x, y, z)
+
 
 def euler2quat(roll, pitch, yaw, degrees=False):
     """
