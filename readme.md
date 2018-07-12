@@ -10,10 +10,14 @@ Quaternion representations and have a nice way to print them out.
 
 ## Usage
 
+This is all this library does, convert between Euler angles and Quaternions.
+There are other libraries that do so much more ... but I don't need all of that.
+
 ```python
 from squaternion import euler2quat, quat2euler, Quaternion
 
-# if you know the values you want Quaternion(w, x,y,z)
+# if you know the values you want Quaternion(w, x, y, z), note this is a
+# namedtuple so it is immutable once created
 q = Quaternion(1,0,0,0)
 
 # however you typically don't think in 4 dimensions, so create from
