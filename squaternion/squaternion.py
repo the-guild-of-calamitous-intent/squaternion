@@ -72,3 +72,26 @@ def quat2euler(w, x, y, z, degrees=False):
         Z *= 180/pi
 
     return (X, Y, Z,)
+
+
+# value?
+# def to_transform(q, t):
+#     tf = np.eye(4)
+
+#     tf[0][0] = q.w * q.w + q.x * q.x - q.y * q.y - q.z * q.z
+#     tf[0][1] = 2 * (q.x * q.y - q.w * q.z)
+#     tf[0][2] = 2 * (q.x * q.z + q.w * q.y)
+
+#     tf[1][0] = 2 * (q.x * q.y + q.w * q.z)
+#     tf[1][1] = q.w * q.w - q.x * q.x + q.y * q.y - q.z * q.z
+#     tf[1][2] = 2 * (q.y * q.z - q.w * q.x)
+
+#     tf[2][0] = 2 * (q.x * q.z - q.w * q.y)
+#     tf[2][1] = 2 * (q.y * q.z + q.w * q.x)
+#     tf[2][2] = q.w * q.w - q.x * q.x - q.y * q.y + q.z * q.z
+
+#     tf[0][2] = t.x
+#     tf[1][2] = t.y
+#     tf[2][2] = t.z
+
+#     return tf
