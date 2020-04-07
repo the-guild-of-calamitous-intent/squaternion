@@ -6,6 +6,10 @@ Quaternion = namedtuple('Quaternion', 'w x y z')
 
 
 def quatNorm(w, x, y, z):
+    """
+    Returns a normalized a quaterion (unit quaternion) so its 
+    magnitude is 1.0 
+    """
     m = sqrt(w**2 + x**2 + y**2 + z**2)
 
     if m == 1.0:
@@ -23,6 +27,9 @@ def quatNorm(w, x, y, z):
 
 def euler2quat(roll, pitch, yaw, degrees=False):
     """
+    Euler angles euler2quat(roll, pitch, yaw, degrees=False), default is radians, but set
+    degrees True if giving degrees
+    
     This is a modified version of this:
     https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles#Quaternion_to_Euler_Angles_Conversion
     """
@@ -48,6 +55,8 @@ def euler2quat(roll, pitch, yaw, degrees=False):
 
 def quat2euler(w, x, y, z, degrees=False):
     """
+    Returns the Euler angles as a tuple(roll, pitch, yaw)
+    
     This is a modified version of this:
     https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
     """
