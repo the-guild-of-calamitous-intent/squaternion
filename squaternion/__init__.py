@@ -7,4 +7,8 @@ from squaternion.squaternion import quatNorm
 
 __author__ = "Kevin Walchko"
 __license__ = "MIT"
-__version__ = "0.1.0"
+
+try:
+    from importlib.metadata import version # type: ignore
+except ImportError:
+    from importlib_metadata import version # type: ignore

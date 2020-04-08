@@ -1,5 +1,10 @@
 # Simple Quaternions (`squaternion`)
 
+[![Actions Status](https://github.com/MomsFriendlyRobotCompany/squaternion/workflows/CheckPackage/badge.svg)](https://github.com/MomsFriendlyRobotCompany/squaternion/actions)
+![GitHub](https://img.shields.io/github/license/MomsFriendlyRobotCompany/squaternion)
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/squaternion)
+![PyPI](https://img.shields.io/pypi/v/squaternion)
+
 Generally I don't need all of the capabilities (or complexity) of `quaternion`
 math libraries. Basically I just need a way to convert between Euler and
 Quaternion representations and have a nice way to print them out.

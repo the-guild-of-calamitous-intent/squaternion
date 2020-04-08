@@ -1,6 +1,5 @@
-from __future__ import print_function, division
 from squaternion import Quaternion, euler2quat, quat2euler, quatNorm
-from nose.tools import raises
+import pytest
 
 
 def test_quat():
@@ -15,19 +14,19 @@ def test_quat():
                     assert (diff < 0.001), "{}: {} {} {}".format(diff, i, j, k)
 
 
-@raises(ZeroDivisionError)
+@pytest.mark.xfail(raises=ZeroDivisionError)
 def test_norm_divzero():
     q = Quaternion(0, 0, 0, 0)
     q = quatNorm(*q)
 
 
-@raises(TypeError)
+@pytest.mark.xfail(raises=TypeError)
 def test_norm_args():
     q = Quaternion(1, 0, 0, 0)
     q = quatNorm(q)
 
 
-@raises(TypeError)
+@pytest.mark.xfail(raises=TypeError)
 def test_quaternion_args():
     Quaternion(0)
 
