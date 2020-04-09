@@ -34,3 +34,18 @@ def test_quaternion_args():
 def test_quaternion_zero():
     q = euler2quat(0, 0, 0)
     assert q == (1, 0, 0, 0)
+
+
+# def test_quaternion():
+#     euler = [
+#         (0.,-45.,0.)
+#     ]
+#     quat = [
+#         (0.9238795325112867, 0.0, -0.3826834323650898, 0.0)
+#     ]
+#     for q, e in zip(quat, euler):
+#         qq = euler2quat(e[0], e[1], e[2], True)
+#         assert qq == q, f"{q} != {qq}"
+#
+#         ee = quat2euler(q[0],q[1],q[2],q[3], True)
+#         assert ee == e, f"{ee} != {e}"

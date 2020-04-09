@@ -7,8 +7,8 @@ Quaternion = namedtuple('Quaternion', 'w x y z')
 
 def quatNorm(w, x, y, z):
     """
-    Returns a normalized a quaterion (unit quaternion) so its 
-    magnitude is 1.0 
+    Returns a normalized a quaterion (unit quaternion) so its
+    magnitude is 1.0
     """
     m = sqrt(w**2 + x**2 + y**2 + z**2)
 
@@ -29,7 +29,7 @@ def euler2quat(roll, pitch, yaw, degrees=False):
     """
     Euler angles euler2quat(roll, pitch, yaw, degrees=False), default is radians, but set
     degrees True if giving degrees
-    
+
     This is a modified version of this:
     https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles#Quaternion_to_Euler_Angles_Conversion
     """
@@ -56,7 +56,7 @@ def euler2quat(roll, pitch, yaw, degrees=False):
 def quat2euler(w, x, y, z, degrees=False):
     """
     Returns the Euler angles as a tuple(roll, pitch, yaw)
-    
+
     This is a modified version of this:
     https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
     """
@@ -84,23 +84,27 @@ def quat2euler(w, x, y, z, degrees=False):
 
 
 # value?
-# def to_transform(q, t):
-#     tf = np.eye(4)
+def quat2rot(q):
+    tf = np.eye(4)
 
-#     tf[0][0] = q.w * q.w + q.x * q.x - q.y * q.y - q.z * q.z
-#     tf[0][1] = 2 * (q.x * q.y - q.w * q.z)
-#     tf[0][2] = 2 * (q.x * q.z + q.w * q.y)
+    tf[0][0] = q.w * q.w + q.x * q.x - q.y * q.y - q.z * q.z
+    tf[0][1] = 2 * (q.x * q.y - q.w * q.z)
+    tf[0][2] = 2 * (q.x * q.z + q.w * q.y)
 
-#     tf[1][0] = 2 * (q.x * q.y + q.w * q.z)
-#     tf[1][1] = q.w * q.w - q.x * q.x + q.y * q.y - q.z * q.z
-#     tf[1][2] = 2 * (q.y * q.z - q.w * q.x)
+    tf[1][0] = 2 * (q.x * q.y + q.w * q.z)
+    tf[1][1] = q.w * q.w - q.x * q.x + q.y * q.y - q.z * q.z
+    tf[1][2] = 2 * (q.y * q.z - q.w * q.x)
 
-#     tf[2][0] = 2 * (q.x * q.z - q.w * q.y)
-#     tf[2][1] = 2 * (q.y * q.z + q.w * q.x)
-#     tf[2][2] = q.w * q.w - q.x * q.x - q.y * q.y + q.z * q.z
+    tf[2][0] = 2 * (q.x * q.z - q.w * q.y)
+    tf[2][1] = 2 * (q.y * q.z + q.w * q.x)
+    tf[2][2] = q.w * q.w - q.x * q.x - q.y * q.y + q.z * q.z
 
-#     tf[0][2] = t.x
-#     tf[1][2] = t.y
-#     tf[2][2] = t.z
+    tf[0][2] = t.x
+    tf[1][2] = t.y
+    tf[2][2] = t.z
 
-#     return tf
+    return tf
+
+
+def rot2quat(tf):
+    pass

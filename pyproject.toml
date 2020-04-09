@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "squaternion"
-version = "0.1.1"
+version = "0.1.2"
 description = "Some simple functions for quaternion math"
 authors = ["walchko <walchko@users.noreply.github.com>"]
 readme = "readme.md"
