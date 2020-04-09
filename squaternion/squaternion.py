@@ -1,4 +1,9 @@
-from __future__ import print_function, division
+# -*- coding: utf-8 -*-
+##############################################
+# The MIT License (MIT)
+# Copyright (c) 2014 Kevin Walchko
+# see LICENSE for full details
+##############################################
 from math import sin, cos, atan2, pi, sqrt, asin
 from collections import namedtuple
 
