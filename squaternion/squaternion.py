@@ -6,6 +6,7 @@
 ##############################################
 from math import sin, cos, atan2, pi, sqrt, asin
 from collections import namedtuple
+import numpy as np
 
 Quaternion = namedtuple('Quaternion', 'w x y z')
 
@@ -90,26 +91,51 @@ def quat2euler(w, x, y, z, degrees=False):
 
 # value?
 def quat2rot(q):
-    tf = np.eye(4)
+    """
+    Given a quaternion, return a rotation matrix.
 
-    tf[0][0] = q.w * q.w + q.x * q.x - q.y * q.y - q.z * q.z
-    tf[0][1] = 2 * (q.x * q.y - q.w * q.z)
-    tf[0][2] = 2 * (q.x * q.z + q.w * q.y)
+    https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
+    """
+    r = np.eye(3)
 
-    tf[1][0] = 2 * (q.x * q.y + q.w * q.z)
-    tf[1][1] = q.w * q.w - q.x * q.x + q.y * q.y - q.z * q.z
-    tf[1][2] = 2 * (q.y * q.z - q.w * q.x)
+    r[0][0] = q.w * q.w + q.x * q.x - q.y * q.y - q.z * q.z
+    r[0][1] = 2 * (q.x * q.y - q.w * q.z)
+    r[0][2] = 2 * (q.x * q.z + q.w * q.y)
 
-    tf[2][0] = 2 * (q.x * q.z - q.w * q.y)
-    tf[2][1] = 2 * (q.y * q.z + q.w * q.x)
-    tf[2][2] = q.w * q.w - q.x * q.x - q.y * q.y + q.z * q.z
+    r[1][0] = 2 * (q.x * q.y + q.w * q.z)
+    r[1][1] = q.w * q.w - q.x * q.x + q.y * q.y - q.z * q.z
+    r[1][2] = 2 * (q.y * q.z - q.w * q.x)
 
-    tf[0][2] = t.x
-    tf[1][2] = t.y
-    tf[2][2] = t.z
+    r[2][0] = 2 * (q.x * q.z - q.w * q.y)
+    r[2][1] = 2 * (q.y * q.z + q.w * q.x)
+    r[2][2] = q.w * q.w - q.x * q.x - q.y * q.y + q.z * q.z
 
-    return tf
+    return r
 
 
-def rot2quat(tf):
-    pass
+def euler2quat(r,p,y, degrees=False):
+
+    if degrees:
+        r *= pi/180
+        p *= pi/180
+        y *= pi/180
+
+    cx = cos(r); sx = sin(r)
+    cy = cos(p); sy = sin(p)
+    cz = cos(y); sz = sin(y)
+
+    rot = np.zeros((3,3))
+
+    rot[0][0] = cr*cz
+    rot[0][1] =
+
+    rot = np.array([
+        [cx*cz, -cy*sz+sy*sr*cz, sy*sz+cy*sx*cz],
+        [cx*sz, cy*cz+sy*sx*sz, -sy*cz+cy*sr*sz],
+        [-xx, sy*cx, cy*cx]
+    ])
+
+    return rot
+
+# def rot2quat(r):
+#     pass
