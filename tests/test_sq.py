@@ -71,7 +71,32 @@ def test_axis():
     assert Axis.y == 2
     assert Axis.z == 4
 
+def test_quaternion():
+    q = Quaternion(1,2,3,4)
+    assert q.w == 1
+    assert q.x == 2
+    assert q.y == 3
+    assert q.z == 4
 
+    assert len(q) == 4
+
+    for i, ii in zip(q, (1,2,3,4)):
+        assert i == ii
+
+    assert q.to_dict() == {'w':1, 'x':2, 'y':3, 'z':4}
+
+    assert q[0] == 1
+    assert q[1] == 2
+    assert q[2] == 3
+    assert q[3] == 4
+
+    assert q[3] == q[-1]
+    assert q[0] == q.scalar
+    assert q[1:] == q.vector
+    assert q[-3:] == q.vector
+
+    with pytest.raises(IndexError):
+        q[4]
 
 
 

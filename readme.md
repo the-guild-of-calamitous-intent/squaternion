@@ -13,7 +13,7 @@ has basically no imports outside of standard python 3.x libraries.
 ### Alternatives
 
 - [scipy.spatial.transform.Rotation](https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.transform.Rotation.html#scipy.spatial.transform.Rotation): has everything you could want, with lots of imports
-- [tinyquaternion](https://github.com/rezaahmadzadeh/tinyquaternion): appears to be more functional and light weight
+- [tinyquaternion](https://github.com/rezaahmadzadeh/tinyquaternion): appears to be more functional but needs `numpy`
 - [quaternions](https://github.com/mjsobrep/quaternions): another good lightweight quaternion package
 
 ## Install
@@ -42,6 +42,14 @@ q = Quaternion.from_euler(0, -90, 100, degrees=True)
 # can get the euler angles back out in degrees (set to True)
 e = q.to_euler(degrees=True)
 
+# iterate through values
+for i in q:
+    print(f"{i}")
+
+# index
+z = q[3]
+z = q[-1]
+
 # class properties
 v = q.vector     # returns a tuple (x,y,z)
 s = q.scalar     # returns a double (w)
@@ -52,6 +60,7 @@ a = q.axis       # returns axis of rotation
 
 # useful attr functions
 q == q    # compare will return True
+q != q    # will return False
 print(q)  # pretty print
 ```
 

@@ -33,6 +33,26 @@ class Quaternion:
     y=attr.ib(default=0.0)
     z=attr.ib(default=0.0)
 
+    def __len__(self):
+        return 4
+
+    def __iter__(self):
+        for i in [self.w, self.x, self.y, self.z]:
+            yield i
+
+    def __getitem__(self, key):
+        # if key == 0: return self.w
+        # elif key == 1: return self.x
+        # elif key == 2: return self.y
+        # elif key == 3: return self.z
+        # else:
+        #     raise KeyError(f"Invalid index: {key}")
+        q = (self.w, self.x, self.y, self.z,)
+        return q[key]
+
+    def to_dict(self):
+        return {'w': self.w, 'x': self.x, 'y': self.y, 'z': self.z}
+
     @property
     def magnitude(self):
         """Returns the magnitude of the quaternion"""
@@ -68,7 +88,7 @@ class Quaternion:
     @property
     def vector(self):
         """Returns the vector component of the quaternion"""
-        return (self.x, self.y, self.z)
+        return (self.x, self.y, self.z,)
 
     @property
     def angle(self):
