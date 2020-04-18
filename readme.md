@@ -7,7 +7,14 @@
 
 Generally I don't need all of the capabilities (or complexity) of `quaternion`
 math libraries. Basically I just need a way to convert between Euler and
-Quaternion representations and have a nice way to print them out.
+Quaternion representations and have a nice way to print them out. Also, this 
+has basically no imports outside of standard python libraries.
+
+### Alternatives
+
+- [scipy.spatial.transform.Rotation](https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.transform.Rotation.html#scipy.spatial.transform.Rotation): has everything you could want, with lots of imports
+- [tinyquaternion](https://github.com/rezaahmadzadeh/tinyquaternion): appears to be more functional and light weight
+- [quaternions](https://github.com/mjsobrep/quaternions): another good lightweight quaternion package
 
 ## Install
 
