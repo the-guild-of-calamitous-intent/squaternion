@@ -1,3 +1,5 @@
+![](https://images.pexels.com/photos/45246/green-tree-python-python-tree-python-green-45246.jpeg?cs=srgb&dl=green-snake-45246.jpg&fm=jpg)
+
 # Simple Quaternions (`squaternion`)
 
 [![Actions Status](https://github.com/MomsFriendlyRobotCompany/squaternion/workflows/CheckPackage/badge.svg)](https://github.com/MomsFriendlyRobotCompany/squaternion/actions)
@@ -7,10 +9,18 @@
 
 Generally I don't need all of the capabilities (or complexity) of `quaternion`
 math libraries. Basically I just need a way to convert between Euler and
-Quaternion representations and have a nice way to print them out. Also, this
-has basically no imports outside of standard python 3.x libraries.
+Quaternion representations and have a nice way to print them out.
+
+This has basically no imports outside of standard python 3.x libraries.
+It should be easier to get on embedded python systems without having to build
+`numpy`. Also, this tries to be *fast* by using a frozen class with slots and
+where it makes sense, returns `tuples` instead of `list`s.
 
 ### Alternatives
+
+This is a basic library that converts between Euler angles and Quaternions.
+There are other libraries that do so much more listed below ... but I don't
+need all of that.
 
 - [scipy.spatial.transform.Rotation](https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.transform.Rotation.html#scipy.spatial.transform.Rotation): has everything you could want, with lots of imports
 - [tinyquaternion](https://github.com/rezaahmadzadeh/tinyquaternion): appears to be more functional but needs `numpy`
@@ -23,9 +33,6 @@ pip install squaternion
 ```
 
 ## Usage
-
-This is all this library does, convert between Euler angles and Quaternions.
-There are other libraries that do so much more ... but I don't need all of that.
 
 ```python
 from squaternion import Quaternion

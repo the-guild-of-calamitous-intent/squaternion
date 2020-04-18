@@ -35,15 +35,17 @@ class Quaternion:
     z=attr.ib(default=0.0)
 
     def __len__(self):
+        """Enables the length function to work: len(q) => 4"""
         return 4
 
     def __iter__(self):
+        """Enables iterating: for i in q: print(i)"""
         for i in (self.w, self.x, self.y, self.z,):
             yield i
 
     def __getitem__(self, key):
-        q = (self.w, self.x, self.y, self.z,)
-        return q[key]
+        """Enables indexing: q[0] => q.w"""
+        return self.to_tuple()[key]
 
     def __mul__(self, r):
         """
@@ -67,29 +69,20 @@ class Quaternion:
         raise NotImplementedError("Quaternion.rotate_vec")
 
     def to_dict(self):
+        """Returns a dictionary"""
         return {'w': self.w, 'x': self.x, 'y': self.y, 'z': self.z}
+
+    def to_tuple(self):
+        """Returns a tuple"""
+        return (self.w, self.x, self.y, self.z,)
 
     def to_rot(self):
         """
-        Given a quaternion, return a 3x3 rotation matrix array.
+        Given a quaternion, return a 3x3 rotation matrix tuple. You can easily
+        turn this into a numpy array with: np.array(q.to_rot())
 
         https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
         """
-        # r = [[0,0,0],[0,0,0],[0,0,0]]
-        #
-        # r[0][0] = self.w * self.w + self.x * self.x - self.y * self.y - self.z * self.z
-        # r[0][1] = 2 * (self.x * self.y - self.w * self.z)
-        # r[0][2] = 2 * (self.x * self.z + self.w * self.y)
-        #
-        # r[1][0] = 2 * (self.x * self.y + self.w * self.z)
-        # r[1][1] = self.w * self.w - self.x * self.x + self.y * self.y - self.z * self.z
-        # r[1][2] = 2 * (self.y * self.z - self.w * self.x)
-        #
-        # r[2][0] = 2 * (self.x * self.z - self.w * self.y)
-        # r[2][1] = 2 * (self.y * self.z + self.w * self.x)
-        # r[2][2] = self.w * self.w - self.x * self.x - self.y * self.y + self.z * self.z
-
-#######################3
         r = (
             (self.w * self.w + self.x * self.x - self.y * self.y - self.z * self.z,
             2 * (self.x * self.y - self.w * self.z),
