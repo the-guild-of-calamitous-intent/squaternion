@@ -1,6 +1,6 @@
 from squaternion import Quaternion, euler2quat, quat2euler, quatNorm
 from squaternion.squaternion import quat2rot
-import numpy as np
+# import numpy as np
 import pytest
 
 
@@ -43,24 +43,24 @@ def test_e2q():
     # assert tuple(x**2 - y**2 for x,y in zip(a,q)) == (dd, dd, dd, dd), f"{q} != (0.7852207, 0.3600422, 0.1966282, 0.4638269)"
 
 
-def test_q2r():
-    q = Quaternion(1,0,0,0)
-    r = quat2rot(q)
-    assert np.eye(3).all() == r.all(), f"{r} != np.eye(3)"
+# def test_q2r():
+#     q = Quaternion(1,0,0,0)
+#     r = quat2rot(q)
+#     assert np.eye(3).all() == r.all(), f"{r} != np.eye(3)"
 
-    q = Quaternion(0,0,0,1)
-    r = quat2rot(q)
-    assert np.diag([-1.0,-1.0,1.0]).all() == r.all(), f"{r} != np.diag([-1,-1,1])"
+#     q = Quaternion(0,0,0,1)
+#     r = quat2rot(q)
+#     assert np.diag([-1.0,-1.0,1.0]).all() == r.all(), f"{r} != np.diag([-1,-1,1])"
 
-    q = Quaternion(0.,0.5773503, 0.5773503, 0.5773503)
-    r = quat2rot(q)
-    a = np.array([
-            [-0.3333333,  0.6666667,  0.6666667],
-            [0.6666667, -0.3333333,  0.6666667],
-            [0.6666667,  0.6666667, -0.3333333]
-        ])
-    print(r,a)
-    assert r.all() == a.all(), f"{r} != {a}"
+#     q = Quaternion(0.,0.5773503, 0.5773503, 0.5773503)
+#     r = quat2rot(q)
+#     a = np.array([
+#             [-0.3333333,  0.6666667,  0.6666667],
+#             [0.6666667, -0.3333333,  0.6666667],
+#             [0.6666667,  0.6666667, -0.3333333]
+#         ])
+#     print(r,a)
+#     assert r.all() == a.all(), f"{r} != {a}"
 
 # def test_quaternion():
 #     euler = [
