@@ -58,9 +58,16 @@ def test_mult():
 def test_rmul():
     2*Quaternion()
 
-@pytest.mark.xfail(raises=NotImplementedError)
-def test_from_rot():
-    Quaternion.from_rot(3)
+def test_rotation_matrix():
+    q = Quaternion(1,0,0,0)
+    r = q.to_rot()
+
+    for i, row in enumerate(((1, 0, 0), (0, 1, 0), (0, 0, 1))):
+        for j, col in enumerate(row):
+            assert r[i][j] == col
+
+    with pytest.raises(NotImplementedError):
+        Quaternion.from_rot(r)
 
 @pytest.mark.xfail(raises=AssertionError)
 def test_eq():
@@ -97,7 +104,6 @@ def test_quaternion():
 
     with pytest.raises(IndexError):
         q[4]
-
 
 
 # def test_e2q():

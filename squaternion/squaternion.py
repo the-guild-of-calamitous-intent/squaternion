@@ -15,6 +15,7 @@ deg2rad = pi/180
 @attr.s(slots=True, frozen=True)
 class Quaternion:
     """
+    q = Quaternion() # defaults to unit (1,0,0,0)
     q = Quaternion(w,x,y,z)
 
     class properties:
@@ -37,21 +38,101 @@ class Quaternion:
         return 4
 
     def __iter__(self):
-        for i in [self.w, self.x, self.y, self.z]:
+        for i in (self.w, self.x, self.y, self.z,):
             yield i
 
     def __getitem__(self, key):
-        # if key == 0: return self.w
-        # elif key == 1: return self.x
-        # elif key == 2: return self.y
-        # elif key == 3: return self.z
-        # else:
-        #     raise KeyError(f"Invalid index: {key}")
         q = (self.w, self.x, self.y, self.z,)
         return q[key]
 
+    def __mul__(self, r):
+        """
+        Return the quaternion result of multiplication: q*r
+
+        https://www.mathworks.com/help/aeroblks/quaternionmultiplication.html
+        """
+        q = self
+        w = q.w*r.w - q.x*r.x - q.y*r.y - q.z*r.z
+        x = q.x*r.w + q.w*r.x - q.z*r.y + q.y*r.z
+        y = q.y*r.w + q.z*r.x + q.w*r.y - q.x*r.z
+        z = q.z*r.w - q.y*r.x + q.x*r.y + q.w*r.z
+        return Quaternion(w,x,y,z)
+
+    def __rmul__(self, r):
+        """Would handle things like: 2*q"""
+        raise NotImplementedError("Quaternion.__rmul__")
+
+    def rotate_vec(self, vec):
+        """Why would I need this?"""
+        raise NotImplementedError("Quaternion.rotate_vec")
+
     def to_dict(self):
         return {'w': self.w, 'x': self.x, 'y': self.y, 'z': self.z}
+
+    def to_rot(self):
+        """
+        Given a quaternion, return a 3x3 rotation matrix array.
+
+        https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
+        """
+        # r = [[0,0,0],[0,0,0],[0,0,0]]
+        #
+        # r[0][0] = self.w * self.w + self.x * self.x - self.y * self.y - self.z * self.z
+        # r[0][1] = 2 * (self.x * self.y - self.w * self.z)
+        # r[0][2] = 2 * (self.x * self.z + self.w * self.y)
+        #
+        # r[1][0] = 2 * (self.x * self.y + self.w * self.z)
+        # r[1][1] = self.w * self.w - self.x * self.x + self.y * self.y - self.z * self.z
+        # r[1][2] = 2 * (self.y * self.z - self.w * self.x)
+        #
+        # r[2][0] = 2 * (self.x * self.z - self.w * self.y)
+        # r[2][1] = 2 * (self.y * self.z + self.w * self.x)
+        # r[2][2] = self.w * self.w - self.x * self.x - self.y * self.y + self.z * self.z
+
+#######################3
+        r = (
+            (self.w * self.w + self.x * self.x - self.y * self.y - self.z * self.z,
+            2 * (self.x * self.y - self.w * self.z),
+            2 * (self.x * self.z + self.w * self.y)),
+
+            (2 * (self.x * self.y + self.w * self.z),
+            self.w * self.w - self.x * self.x + self.y * self.y - self.z * self.z,
+            2 * (self.y * self.z - self.w * self.x)),
+
+            (2 * (self.x * self.z - self.w * self.y),
+            2 * (self.y * self.z + self.w * self.x),
+            self.w * self.w - self.x * self.x - self.y * self.y + self.z * self.z))
+
+        return r
+
+    def to_euler(self, degrees=False):
+        """
+        Returns the Euler angles as a tuple(roll, pitch, yaw)
+
+        This is a modified version of this:
+        https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
+        """
+        ysqr = self.y * self.y
+
+        t0 = +2.0 * (self.w * self.x + self.y * self.z)
+        t1 = +1.0 - 2.0 * (self.x * self.x + ysqr)
+        X = atan2(t0, t1)
+
+        t2 = +2.0 * (self.w * self.y - self.z * self.x)
+        t2 = +1.0 if t2 > +1.0 else t2
+        t2 = -1.0 if t2 < -1.0 else t2
+        Y = asin(t2)
+
+        t3 = +2.0 * (self.w * self.z + self.x * self.y)
+        t4 = +1.0 - 2.0 * (ysqr + self.z * self.z)
+        Z = atan2(t3, t4)
+
+        if degrees:
+            X *= rad2deg
+            Y *= rad2deg
+            Z *= rad2deg
+
+        return (X, Y, Z,)
 
     @property
     def magnitude(self):
@@ -116,39 +197,6 @@ class Quaternion:
             self.z * m,
         )
 
-    def rotate_vec(self, vec):
-        """Why would I need this?"""
-        raise NotImplementedError("Quaternion.rotate_vec")
-
-    def to_euler(self, degrees=False):
-        """
-        Returns the Euler angles as a tuple(roll, pitch, yaw)
-
-        This is a modified version of this:
-        https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
-        """
-        ysqr = self.y * self.y
-
-        t0 = +2.0 * (self.w * self.x + self.y * self.z)
-        t1 = +1.0 - 2.0 * (self.x * self.x + ysqr)
-        X = atan2(t0, t1)
-
-        t2 = +2.0 * (self.w * self.y - self.z * self.x)
-        t2 = +1.0 if t2 > +1.0 else t2
-        t2 = -1.0 if t2 < -1.0 else t2
-        Y = asin(t2)
-
-        t3 = +2.0 * (self.w * self.z + self.x * self.y)
-        t4 = +1.0 - 2.0 * (ysqr + self.z * self.z)
-        Z = atan2(t3, t4)
-
-        if degrees:
-            X *= rad2deg
-            Y *= rad2deg
-            Z *= rad2deg
-
-        return (X, Y, Z,)
-
     @staticmethod
     def from_rot(r):
         """Why would I need this?"""
@@ -186,42 +234,3 @@ class Quaternion:
         z = sy * cr * cp - cy * sr * sp
 
         return Quaternion(w, x, y, z)
-
-    def to_rot(self):
-        """
-        Given a quaternion, return a 3x3 rotation matrix array.
-
-        https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
-        """
-        r = [[0,0,0],[0,0,0],[0,0,0]]
-
-        r[0][0] = self.w * self.w + self.x * self.x - self.y * self.y - self.z * self.z
-        r[0][1] = 2 * (self.x * self.y - self.w * self.z)
-        r[0][2] = 2 * (self.x * self.z + self.w * self.y)
-
-        r[1][0] = 2 * (self.x * self.y + self.w * self.z)
-        r[1][1] = self.w * self.w - self.x * self.x + self.y * self.y - self.z * self.z
-        r[1][2] = 2 * (self.y * self.z - self.w * self.x)
-
-        r[2][0] = 2 * (self.x * self.z - self.w * self.y)
-        r[2][1] = 2 * (self.y * self.z + self.w * self.x)
-        r[2][2] = self.w * self.w - self.x * self.x - self.y * self.y + self.z * self.z
-
-        return r
-
-    def __mul__(self, r):
-        """
-        Return the quaternion result of multiplication: q*r
-
-        https://www.mathworks.com/help/aeroblks/quaternionmultiplication.html
-        """
-        q = self
-        w = q.w*r.w - q.x*r.x - q.y*r.y - q.z*r.z
-        x = q.x*r.w + q.w*r.x - q.z*r.y + q.y*r.z
-        y = q.y*r.w + q.z*r.x + q.w*r.y - q.x*r.z
-        z = q.z*r.w - q.y*r.x + q.x*r.y + q.w*r.z
-        return Quaternion(w,x,y,z)
-
-    def __rmul__(self, r):
-        """Would handle things like: 2*q"""
-        raise NotImplementedError("Quaternion.__rmul__")
