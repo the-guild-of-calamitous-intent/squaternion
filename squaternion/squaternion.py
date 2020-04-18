@@ -97,7 +97,7 @@ def quat2rot(q):
     https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
     """
     #r = np.eye(3)
-    r = [[0,0,0,],[0,0,0,],[0,0,0,]]
+    r = [[0,0,0],[0,0,0],[0,0,0]]
 
     r[0][0] = q.w * q.w + q.x * q.x - q.y * q.y - q.z * q.z
     r[0][1] = 2 * (q.x * q.y - q.w * q.z)
@@ -125,11 +125,6 @@ def euler2quat(r,p,y, degrees=False):
     cx = cos(r); sx = sin(r)
     cy = cos(p); sy = sin(p)
     cz = cos(y); sz = sin(y)
-
-#     rot = np.zeros((3,3))
-
-#     rot[0][0] = cr*cz
-#     rot[0][1] =
 
     rot = [
         [cx*cz, -cy*sz+sy*sr*cz, sy*sz+cy*sx*cz],
