@@ -133,6 +133,11 @@ class Quaternion:
         return sqrt(self.w**2 + self.x**2 + self.y**2 + self.z**2)
 
     @property
+    def conjugate(self):
+        """Returns Quaternion(w,-x,-y,-z)"""
+        return Quaternion(self.w, -self.x, -self.y, -self.z)
+
+    @property
     def normalize(self):
         """
         Returns a normalized a quaterion (unit quaternion) so its

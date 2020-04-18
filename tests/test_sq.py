@@ -102,6 +102,12 @@ def test_quaternion():
     assert q[1:] == q.vector
     assert q[-3:] == q.vector
 
+    qq = q.conjugate
+    assert q.w == qq.w == 1
+    assert q.x == -qq.x == 2
+    assert q.y == -qq.y == 3
+    assert q.z == -qq.z == 4
+
     with pytest.raises(IndexError):
         q[4]
 
