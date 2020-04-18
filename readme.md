@@ -41,14 +41,17 @@ q = Quaternion.from_euler(0, -90, 100, degrees=True)
 
 # can get the euler angles back out in degrees (set to True)
 e = q.to_euler(degrees=True)
+d = q.to_dict()
 
 # iterate through values
 for i in q:
     print(f"{i}")
 
-# index
+# indexing like a namedtuple
 z = q[3]
 z = q[-1]
+v = q[-3:]
+w = q[0]
 
 # class properties
 v = q.vector     # returns a tuple (x,y,z)
@@ -62,6 +65,10 @@ a = q.axis       # returns axis of rotation
 q == q    # compare will return True
 q != q    # will return False
 print(q)  # pretty print
+w = q.w
+x = q.x
+y = q.y
+z = q.z
 ```
 
 ## References
