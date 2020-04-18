@@ -7,8 +7,8 @@
 
 Generally I don't need all of the capabilities (or complexity) of `quaternion`
 math libraries. Basically I just need a way to convert between Euler and
-Quaternion representations and have a nice way to print them out. Also, this 
-has basically no imports outside of standard python libraries.
+Quaternion representations and have a nice way to print them out. Also, this
+has basically no imports outside of standard python 3.x libraries.
 
 ### Alternatives
 
@@ -26,19 +26,25 @@ This is all this library does, convert between Euler angles and Quaternions.
 There are other libraries that do so much more ... but I don't need all of that.
 
 ```python
-from squaternion import euler2quat, quat2euler, Quaternion
+from squaternion import Quaternion
 
 # if you know the values you want Quaternion(w, x, y, z), note this is a
-# namedtuple so it is immutable once created
+# attr frozen class so it is immutable once created
 q = Quaternion(1,0,0,0)
 
 # however you typically don't think in 4 dimensions, so create from
-# euler angles euler2quat(roll, pitch, yaw), default is radians, but set
+# euler angles from_eluer(roll, pitch, yaw), default is radians, but set
 # degrees true if giving degrees
-q = euler2quat(0, -90, 100, degrees=True)
+q = Quaternion.from_euler(0, -90, 100, degrees=True)
 
 # can get the euler angles back out in degrees (set to True)
-e = quat2euler(*q, degrees=True)
+e = q.to_euler(degrees=True)
+
+# class properties
+v = q.vector  # returns a tuple (x,y,z)
+s = q.scalar  # returns a double (w)
+qq = q.normalize # returns unit quaternion
+m = q.magnitude  # returns the mangnitude of the quaternion
 ```
 
 ## References
