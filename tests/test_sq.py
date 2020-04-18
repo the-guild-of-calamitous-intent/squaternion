@@ -22,7 +22,7 @@ def test_norm_divzero():
     q = Quaternion(0, 0, 0, 0)
     q = q.normalize
 
-def test_norm_args():
+def test_norm_mag():
     q = Quaternion(1, 1, 1, 1)
     assert q.magnitude == 2.0
 
