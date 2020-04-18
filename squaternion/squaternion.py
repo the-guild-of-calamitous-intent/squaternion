@@ -6,7 +6,7 @@
 ##############################################
 from math import sin, cos, atan2, pi, sqrt, asin
 from collections import namedtuple
-import numpy as np
+# import numpy as np
 
 Quaternion = namedtuple('Quaternion', 'w x y z')
 
@@ -92,11 +92,12 @@ def quat2euler(w, x, y, z, degrees=False):
 # value?
 def quat2rot(q):
     """
-    Given a quaternion, return a rotation matrix.
+    Given a quaternion, return a 3x3 rotation matrix array.
 
     https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
     """
-    r = np.eye(3)
+    #r = np.eye(3)
+    r = [[0,0,0,],[0,0,0,],[0,0,0,]]
 
     r[0][0] = q.w * q.w + q.x * q.x - q.y * q.y - q.z * q.z
     r[0][1] = 2 * (q.x * q.y - q.w * q.z)
@@ -114,6 +115,7 @@ def quat2rot(q):
 
 
 def euler2quat(r,p,y, degrees=False):
+    """Given roll, pitch, and yaw, it returns a 3x3 rotation matrix array"""
 
     if degrees:
         r *= pi/180
@@ -129,11 +131,11 @@ def euler2quat(r,p,y, degrees=False):
 #     rot[0][0] = cr*cz
 #     rot[0][1] =
 
-    rot = np.array([
+    rot = [
         [cx*cz, -cy*sz+sy*sr*cz, sy*sz+cy*sx*cz],
         [cx*sz, cy*cz+sy*sx*sz, -sy*cz+cy*sr*sz],
         [-xx, sy*cx, cy*cx]
-    ])
+    ]
 
     return rot
 
