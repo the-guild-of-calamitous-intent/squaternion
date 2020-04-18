@@ -124,10 +124,10 @@ def euler2quat(r,p,y, degrees=False):
     cy = cos(p); sy = sin(p)
     cz = cos(y); sz = sin(y)
 
-    rot = np.zeros((3,3))
+#     rot = np.zeros((3,3))
 
-    rot[0][0] = cr*cz
-    rot[0][1] =
+#     rot[0][0] = cr*cz
+#     rot[0][1] =
 
     rot = np.array([
         [cx*cz, -cy*sz+sy*sr*cz, sy*sz+cy*sx*cz],
