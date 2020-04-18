@@ -6,8 +6,9 @@
 ##############################################
 from math import sin, cos, atan2, pi, sqrt, asin
 import attr
+from enum import IntFlag
 
-
+Axis = IntFlag("Axis", "x y z")
 rad2deg = 180.0/pi
 deg2rad = pi/180
 
@@ -50,7 +51,7 @@ class Quaternion:
         if m == 1.0:
             return Quaternion(w, x, y, z)
         elif m < 1e-6:
-            raise ZeroDivisionError('normQuat(): div by {}'.format(m))
+            raise ZeroDivisionError('Quaternion.normalize: div by {}'.format(m))
 
         w /= m
         x /= m
@@ -68,6 +69,36 @@ class Quaternion:
     def vector(self):
         """Returns the vector component of the quaternion"""
         return (self.x, self.y, self.z)
+
+    @property
+    def angle(self):
+        """
+        returns the angle of rotation (rads)
+
+        https://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToAngle/
+        """
+        return 2.0*acos(self.w)
+
+    @property
+    def axis(self):
+        """
+        Returns a tuple of the axis of rotation
+
+        https://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToAngle/
+        """
+        m = sqrt(1-q.w*q.w)
+        if m < 1e-6:
+            raise ZeroDivisionError('Quaternion.axis: div by {}'.format(m))
+        m = 1/m
+        return (
+            self.x * m,
+            self.y * m,
+            self.z * m,
+        )
+
+    def rotate_vec(self, vec):
+        """Why would I need this?"""
+        raise NotImplementedError("Quaternion.rotate_vec")
 
     def to_euler(self, degrees=False):
         """
@@ -98,11 +129,15 @@ class Quaternion:
 
         return (X, Y, Z,)
 
-
     @staticmethod
     def from_rot(r):
         """Why would I need this?"""
         raise NotImplementedError("Quaternion.from_rot")
+
+    @staticmethod
+    def from_axis_angle(axis, angle, degrees=False):
+        """Why would I need this?"""
+        raise NotImplementedError("Quaternion.from_axis_angle")
 
     @staticmethod
     def from_euler(roll, pitch, yaw, degrees=False):

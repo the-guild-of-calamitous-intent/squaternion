@@ -1,4 +1,4 @@
-from squaternion import Quaternion
+from squaternion import Quaternion, Axis
 import pytest
 
 
@@ -32,6 +32,23 @@ def test_norm_args():
     q = Quaternion(0, 0, 0, 0)
     assert q.magnitude == 0.0
 
+def test_compare():
+    a = Quaternion(1,1,1,1)
+    b = Quaternion(1,0,0,1)
+    c = Quaternion(1,1,1,1)
+
+    assert a == a
+    assert a == c
+    assert c == a
+    assert a.normalize == c.normalize
+
+    assert a != b
+    assert b != a
+    assert a.normalize != b.normalize
+
+    assert a.magnitude == c.magnitude
+    assert a.magnitude != b.magnitude
+
 def test_mult():
     a = Quaternion(1, 0, 0, 0)
     b = Quaternion(1, 0, 0, 0)
@@ -48,6 +65,15 @@ def test_from_rot():
 @pytest.mark.xfail(raises=AssertionError)
 def test_eq():
     assert Quaternion(1,1,1,1) == Quaternion(1,1,1,0)
+
+def test_axis():
+    assert Axis.x == 1
+    assert Axis.y == 2
+    assert Axis.z == 4
+
+
+
+
 
 # def test_e2q():
 #     q = Quaternion.from_euler(0, 0, 0)

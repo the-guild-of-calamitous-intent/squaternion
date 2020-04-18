@@ -5,7 +5,7 @@
 # see LICENSE for full details
 ##############################################
 from squaternion.squaternion import Quaternion
-
+from squaternion.squaternion import Axis
 
 try:
     from importlib.metadata import version # type: ignore

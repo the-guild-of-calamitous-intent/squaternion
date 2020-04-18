@@ -18,7 +18,9 @@ has basically no imports outside of standard python 3.x libraries.
 
 ## Install
 
-  pip install squaternion
+```
+pip install squaternion
+```
 
 ## Usage
 
@@ -41,10 +43,16 @@ q = Quaternion.from_euler(0, -90, 100, degrees=True)
 e = q.to_euler(degrees=True)
 
 # class properties
-v = q.vector  # returns a tuple (x,y,z)
-s = q.scalar  # returns a double (w)
-qq = q.normalize # returns unit quaternion
-m = q.magnitude  # returns the mangnitude of the quaternion
+v = q.vector     # returns a tuple (x,y,z)
+s = q.scalar     # returns a double (w)
+n = q.normalize  # returns unit quaternion
+m = q.magnitude  # returns the magnitude of the quaternion
+a = q.angle      # returns angle of rotation in radians
+a = q.axis       # returns axis of rotation
+
+# useful attr functions
+q == q    # compare will return True
+print(q)  # pretty print
 ```
 
 ## References
