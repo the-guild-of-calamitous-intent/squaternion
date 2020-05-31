@@ -4,7 +4,7 @@
 # Copyright (c) 2014 Kevin Walchko
 # see LICENSE for full details
 ##############################################
-from math import sin, cos, atan2, pi, sqrt, asin
+from math import sin, cos, atan2, pi, sqrt, asin, acos
 import attr
 from enum import IntFlag
 
@@ -185,7 +185,7 @@ class Quaternion:
 
         https://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToAngle/
         """
-        m = sqrt(1-q.w*q.w)
+        m = sqrt(1-self.w*self.w)
         if m < 1e-6:
             raise ZeroDivisionError('Quaternion.axis: div by {}'.format(m))
         m = 1/m
