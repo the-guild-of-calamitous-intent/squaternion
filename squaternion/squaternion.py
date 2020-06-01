@@ -5,6 +5,7 @@
 # see LICENSE for full details
 ##############################################
 from math import sin, cos, atan2, pi, sqrt, asin, acos
+# import numpy as np
 import attr
 from enum import IntFlag
 
@@ -12,7 +13,8 @@ Axis = IntFlag("Axis", "x y z")
 rad2deg = 180.0/pi
 deg2rad = pi/180
 
-@attr.s(slots=True, frozen=True)
+# @attr.s(slots=True, frozen=True)
+@attr.s()
 class Quaternion:
     """
     q = Quaternion() # defaults to unit (1,0,0,0)
@@ -43,9 +45,9 @@ class Quaternion:
         for i in (self.w, self.x, self.y, self.z,):
             yield i
 
-    def __getitem__(self, key):
+    def __getitem__(self, indx):
         """Enables indexing: q[0] => q.w"""
-        return self.to_tuple()[key]
+        return self.to_tuple()[indx]
 
     def __mul__(self, r):
         """
@@ -53,16 +55,55 @@ class Quaternion:
 
         https://www.mathworks.com/help/aeroblks/quaternionmultiplication.html
         """
+        # print(f"q:{self}  r:{r}")
+        # print(f">> {r}: {type(r)} {r.__class__}")
+        # print(f"++ {type(self) == type(r)}")
+        # print(f">> {type(self)}  {self.__class__}")
+        # print(isinstance(r, squaternion.squaternion.Quaternion))
+        # print(isinstance(r, Quaternion))
+        # print(f">> {r.__class__ == 'squaternion.squaternion.Quaternion'}")
         q = self
-        w = q.w*r.w - q.x*r.x - q.y*r.y - q.z*r.z
-        x = q.x*r.w + q.w*r.x - q.z*r.y + q.y*r.z
-        y = q.y*r.w + q.z*r.x + q.w*r.y - q.x*r.z
-        z = q.z*r.w - q.y*r.x + q.x*r.y + q.w*r.z
+
+        # print(f"q:{self}  r:{r}")
+
+        if isinstance(r, (float, int)):
+            w=q.w*r; x=q.x*r; y=q.y*r; z=q.z*r
+        # elif isinstance(r, Quaternion):
+        else:
+            # print(f"q:{self}  r:{r}")
+            # print(f">> {r}: {type(r)} {r.__class__}")
+            # print(f"++ {type(self)}")
+            # print(f"++ {type(self) == type(r)}")
+            w = q.w*r.w - q.x*r.x - q.y*r.y - q.z*r.z
+            x = q.x*r.w + q.w*r.x - q.z*r.y + q.y*r.z
+            y = q.y*r.w + q.z*r.x + q.w*r.y - q.x*r.z
+            z = q.z*r.w - q.y*r.x + q.x*r.y + q.w*r.z
+        # else:
+        #     raise Exception("Quaternion.__mult__: invalide type:", type(r))
+
         return Quaternion(w,x,y,z)
 
     def __rmul__(self, r):
         """Would handle things like: 2*q"""
-        raise NotImplementedError("Quaternion.__rmul__")
+        # raise NotImplementedError("Quaternion.__rmul__")
+        q = self
+        if isinstance(r, (float, int)):
+            w=q.w*r; x=q.x*r; y=q.y*r; z=q.z*r
+        else:
+            raise NotImplementedError("Quaternion.__rmul__:",type(r))
+        return Quaternion(w,x,y,z)
+
+    def __add__(self, r):
+        """Would handle things like: qq+q"""
+        q = self
+        w=q.w+r.w; x=q.x+r.x; y=q.y+r.y; z=q.z+r.z
+        return Quaternion(w,x,y,z)
+
+    def __sub__(self, r):
+        """Would handle things like: qq-q"""
+        q = self
+        w=q.w-r.w; x=q.x-r.x; y=q.y-r.y; z=q.z-r.z
+        return Quaternion(w,x,y,z)
 
     def rotate_vec(self, vec):
         """Why would I need this?"""

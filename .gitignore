@@ -7,3 +7,4 @@ dist
 __pycache__
 .*_cache
 .DS_Store
+*.lock
