@@ -13,8 +13,8 @@ Axis = IntFlag("Axis", "x y z")
 rad2deg = 180.0/pi
 deg2rad = pi/180
 
-# @attr.s(slots=True, frozen=True)
-@attr.s()
+@attr.s(slots=True, frozen=True)
+# @attr.s()
 class Quaternion:
     """
     q = Quaternion() # defaults to unit (1,0,0,0)
@@ -242,9 +242,19 @@ class Quaternion:
         raise NotImplementedError("Quaternion.from_rot")
 
     @staticmethod
-    def from_axis_angle(axis, angle, degrees=False):
+    def from_angle_axis(angle, axis, degrees=False):
         """Why would I need this?"""
-        raise NotImplementedError("Quaternion.from_axis_angle")
+        # raise NotImplementedError("Quaternion.from_axis_angle")
+        if degrees:
+            angle *= deg2rad
+
+        w = cos(angle/2)
+        s = sin(angle/2)
+        n = sqrt(axis[0]*axis[0]+axis[1]*axis[1]+axis[2]*axis[2])
+        if n < 1e-6:
+            raise ZeroDivisionError(f'Quaternion.normalize: div by {n}')
+        n = 1/n
+        return Quaternion(w, s*axis[0]*n, s*axis[1]*n, s*axis[2]*n)
 
     @staticmethod
     def from_euler(roll, pitch, yaw, degrees=False):

@@ -25,6 +25,7 @@ need all of that.
 - [scipy.spatial.transform.Rotation](https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.transform.Rotation.html#scipy.spatial.transform.Rotation): has everything you could want, with lots of imports
 - [tinyquaternion](https://github.com/rezaahmadzadeh/tinyquaternion): appears to be more functional but needs `numpy`
 - [quaternions](https://github.com/mjsobrep/quaternions): another good lightweight quaternion package
+- [pyrr](https://github.com/adamlwgriffiths/Pyrr): seems good, integrated with `numpy`
 
 ## Install
 
