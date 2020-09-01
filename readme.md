@@ -1,4 +1,4 @@
-![](https://images.pexels.com/photos/45246/green-tree-python-python-tree-python-green-45246.jpeg?cs=srgb&dl=green-snake-45246.jpg&fm=jpg)
+![](https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Inscription_on_Broom_Bridge_%28Dublin%29_regarding_the_discovery_of_Quaternions_multiplication_by_Sir_William_Rowan_Hamilton.jpg/800px-Inscription_on_Broom_Bridge_%28Dublin%29_regarding_the_discovery_of_Quaternions_multiplication_by_Sir_William_Rowan_Hamilton.jpg)
 
 # Simple Quaternions (`squaternion`)
 
@@ -41,6 +41,24 @@ from squaternion import Quaternion
 # if you know the values you want Quaternion(w, x, y, z), note this is a
 # attr frozen class so it is immutable once created
 q = Quaternion(1,0,0,0)
+
+# multiplication for scalar (int, double) and with another quaternion
+q = Quaternion(1,2,3,4)
+q*q => Quaternion(w=-28, x=4, y=6, z=8)
+3*q => Quaternion(w=3, x=6, y=9, z=12)
+q*3.0 => Quaternion(w=3.0, x=6.0, y=9.0, z=12.0)
+
+# Addition and subtraction
+q = Quaternion(1,2,3,4)
+q+q => Quaternion(w=2, x=4, y=6, z=8)
+
+# numpy can do some things, but it will change the tuple to an array, so you might
+# need to transform it back to a quaternion
+q = Quaternion(1,2,3,4)
+np.dot(q,q) => 30
+np.sqrt(np.dot(q,q)) => 5.477225575051661
+q/np.sqrt(np.dot(q,q)) => array([0.18257419, 0.36514837, 0.54772256, 0.73029674])
+Quaternion(*(q/np.sqrt(np.dot(q,q)))) => Quaternion(w=0.18257418583505536, x=0.3651483716701107, y=0.5477225575051661, z=0.7302967433402214)
 
 # however you typically don't think in 4 dimensions, so create from
 # euler angles from_eluer(roll, pitch, yaw), default is radians, but set
