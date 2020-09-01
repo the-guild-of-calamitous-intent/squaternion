@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "squaternion"
-version = "0.3.1"
+version = "0.3.2"
 description = "Some simple functions for quaternion math"
 authors = ["walchko <walchko@users.noreply.github.com>"]
 readme = "readme.md"
@@ -27,7 +27,7 @@ python = ">=3.6"
 importlib-metadata = {version="*", python="<3.8"}
 
 [tool.poetry.dev-dependencies]
-pytest = "^5.2"
+pytest = "*"
 numpy = "*"
 
 [build-system]
