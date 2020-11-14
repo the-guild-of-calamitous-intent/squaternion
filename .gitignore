@@ -8,3 +8,4 @@ __pycache__
 .*_cache
 .DS_Store
 *.lock
+.ipynb_checkpoints
