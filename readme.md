@@ -6,7 +6,7 @@
 ![GitHub](https://img.shields.io/github/license/MomsFriendlyRobotCompany/squaternion)
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/squaternion)
 ![PyPI](https://img.shields.io/pypi/v/squaternion)
-[![Downloads](https://pepy.tech/badge/squaternion)](https://pepy.tech/project/squaternion)
+![PyPI - Downloads](https://img.shields.io/pypi/dm/squaternion?color=aqua)
 
 Generally I don't need all of the capabilities (or complexity) of `quaternion`
 math libraries. Basically I just need a way to convert between Euler and
