@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "squaternion"
-version = "0.3.2"
+version = "0.3.3"
 description = "Some simple functions for quaternion math"
 authors = ["walchko <walchko@users.noreply.github.com>"]
 readme = "readme.md"
@@ -14,18 +14,17 @@ classifiers = [
     'Intended Audience :: Developers',
     'License :: OSI Approved :: MIT License',
     'Operating System :: OS Independent',
-    'Programming Language :: Python :: 3.6',
-    'Programming Language :: Python :: 3.7',
     'Programming Language :: Python :: 3.8',
     'Programming Language :: Python :: 3.9',
+    'Programming Language :: Python :: 3.10',
     'Topic :: Software Development :: Libraries',
     'Topic :: Software Development :: Libraries :: Python Modules',
     'Topic :: Software Development :: Libraries :: Application Frameworks'
 ]
 
 [tool.poetry.dependencies]
-python = ">=3.6"
-importlib-metadata = {version="*", python="<3.8"}
+python = ">=3.8"
+# importlib-metadata = {version="*", python="<3.8"}
 
 [tool.poetry.dev-dependencies]
 pytest = "*"
