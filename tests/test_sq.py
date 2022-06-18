@@ -1,4 +1,5 @@
-from squaternion import Quaternion, Axis
+from squaternion import Quaternion
+# from squaternion import Axis
 import pytest
 import numpy as np
 
@@ -76,10 +77,10 @@ def test_eq():
     with pytest.raises(AssertionError):
         assert Quaternion(1,1,1,1) == Quaternion(1,1,1,0)
 
-def test_axis():
-    assert Axis.x == 1
-    assert Axis.y == 2
-    assert Axis.z == 4
+# def test_axis():
+#     assert Axis.x == 1
+#     assert Axis.y == 2
+#     assert Axis.z == 4
 
 def test_quaternion():
     q = Quaternion(1,2,3,4)
@@ -148,16 +149,9 @@ def test_q2r():
     # print(r,a)
     assert r.all() == a.all(), f"{r} != {a}"
 
-# def test_quaternion():
-#     euler = [
-#         (0.,-45.,0.)
-#     ]
-#     quat = [
-#         (0.9238795325112867, 0.0, -0.3826834323650898, 0.0)
-#     ]
-#     for q, e in zip(quat, euler):
-#         qq = euler2quat(e[0], e[1], e[2], True)
-#         assert qq == q, f"{q} != {qq}"
-#
-#         ee = quat2euler(q[0],q[1],q[2],q[3], True)
-#         assert ee == e, f"{ee} != {e}"
+def test_numpy():
+    q = Quaternion(1,2,3,4)
+    assert np.dot(q,q) == 30
+    assert np.sqrt(np.dot(q,q)) == 5.477225575051661
+    assert (q/np.sqrt(np.dot(q,q))).all() == np.array([0.18257419, 0.36514837, 0.54772256, 0.73029674]).all()
+    assert Quaternion(*(q/np.sqrt(np.dot(q,q)))) == Quaternion(w=0.18257418583505536, x=0.3651483716701107, y=0.5477225575051661, z=0.7302967433402214)

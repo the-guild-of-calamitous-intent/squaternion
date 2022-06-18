@@ -5,18 +5,18 @@
 # see LICENSE for full details
 ##############################################
 from math import sin, cos, atan2, pi, sqrt, asin, acos
-# import numpy as np
-import attr
-from enum import IntFlag
+from dataclasses import dataclass, field
+# from enum import IntFlag
 
-Axis = IntFlag("Axis", "x y z")
+# Axis = IntFlag("Axis", "x y z")
 rad2deg = 180.0/pi
 deg2rad = pi/180
 
-@attr.s(slots=True, frozen=True)
-# @attr.s()
+@dataclass(frozen=True)
 class Quaternion:
     """
+    This is a Hamiltonian quaternion [real, (x,y,z)].
+
     q = Quaternion() # defaults to unit (1,0,0,0)
     q = Quaternion(w,x,y,z)
 
@@ -31,10 +31,17 @@ class Quaternion:
         Quaternion.from_euler: returns a quaternion from euler angles (Z,Y,X)
         q*q: multiply 2 quaternions together
     """
-    w=attr.ib(default=1.0)
-    x=attr.ib(default=0.0)
-    y=attr.ib(default=0.0)
-    z=attr.ib(default=0.0)
+    w: float = field(default=1.0)
+    x: float = field(default=0.0)
+    y: float = field(default=0.0)
+    z: float = field(default=0.0)
+
+    def __format__(self, fmt):
+        """Allows you to specify a formating command like '.3f' so the quaternion
+        prints with 3 numbers after the decimal place.
+        """
+        name = self.__class__.__name__
+        return f"{name}(w={self.w.__format__(fmt)}, x={self.x.__format__(fmt)}, y={self.y.__format__(fmt)}, z={self.z.__format__(fmt)})"
 
     def __len__(self):
         """Enables the length function to work: len(q) => 4"""
@@ -48,6 +55,21 @@ class Quaternion:
     def __getitem__(self, indx):
         """Enables indexing: q[0] => q.w"""
         return self.to_tuple()[indx]
+
+    # def __truediv__(self, a):
+    #     """
+    #     Return the quaternion result of division by scalar: q/a
+    #     """
+    #     q = self
+    #     if isinstance(a, (float, int)):
+    #         w=q.w/a
+    #         x=q.x/a
+    #         y=q.y/a
+    #         z=q.z/a
+    #     else:
+    #         raise Exception("Quaternion.__div__: invalide type:", type(r))
+    #
+    #     return Quaternion(w,x,y,z)
 
     def __mul__(self, r):
         """

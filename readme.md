@@ -14,19 +14,7 @@ Quaternion representations and have a nice way to print them out.
 
 This has basically no imports outside of standard python 3.x libraries.
 It should be easier to get on embedded python systems without having to build
-`numpy`. Also, this tries to be *fast* by using a frozen class with slots and
-where it makes sense, returns `tuples` instead of `list`s.
-
-### Alternatives
-
-This is a basic library that converts between Euler angles and Quaternions.
-There are other libraries that do so much more listed below ... but I don't
-need all of that.
-
-- [scipy.spatial.transform.Rotation](https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.transform.Rotation.html#scipy.spatial.transform.Rotation): has everything you could want, with lots of imports
-- [tinyquaternion](https://github.com/rezaahmadzadeh/tinyquaternion): appears to be more functional but needs `numpy`
-- [quaternions](https://github.com/mjsobrep/quaternions): another good lightweight quaternion package
-- [pyrr](https://github.com/adamlwgriffiths/Pyrr): seems good, integrated with `numpy`
+`numpy`. Also, this tries to be *fast* by using a frozen class.
 
 ## Install
 
@@ -91,12 +79,26 @@ a = q.axis       # returns axis of rotation
 # useful attr functions
 q == q    # compare will return True
 q != q    # will return False
+
 print(q)  # pretty print
 w = q.w
 x = q.x
 y = q.y
 z = q.z
+
+print(f"{q:.4f}") # print only 4 decimal places
 ```
+
+## Alternatives
+
+This is a basic library that converts between Euler angles and Quaternions.
+There are other libraries that do so much more listed below ... but I don't
+need all of that.
+
+- [scipy.spatial.transform.Rotation](https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.transform.Rotation.html#scipy.spatial.transform.Rotation): has everything you could want, with lots of imports
+- [tinyquaternion](https://github.com/rezaahmadzadeh/tinyquaternion): appears to be more functional but needs `numpy`
+- [quaternions](https://github.com/mjsobrep/quaternions): another good lightweight quaternion package
+- [pyrr](https://github.com/adamlwgriffiths/Pyrr): seems good, integrated with `numpy`
 
 ## References
 
