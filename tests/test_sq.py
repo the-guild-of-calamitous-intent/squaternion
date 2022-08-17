@@ -1,5 +1,4 @@
 from squaternion import Quaternion
-# from squaternion import Axis
 import pytest
 import numpy as np
 

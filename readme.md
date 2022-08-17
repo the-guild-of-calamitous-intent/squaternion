@@ -14,7 +14,7 @@ Quaternion representations and have a nice way to print them out.
 
 This has basically no imports outside of standard python 3.x libraries.
 It should be easier to get on embedded python systems without having to build
-`numpy`. Also, this tries to be *fast* by using a frozen class.
+`numpy`. Also, this tries to be *fast* by using a `frozen` `dataclass` available in python3.
 
 ## Install
 
@@ -57,6 +57,9 @@ q = Quaternion.from_euler(0, -90, 100, degrees=True)
 # can get the euler angles back out in degrees (set to True)
 e = q.to_euler(degrees=True)
 d = q.to_dict()
+t = q.to_tuple()
+r = q.to_rot() # returns a rotation matrix as tuple
+r = np.array( q.to_rot() ) # rotation matrix as numpy array
 
 # iterate through values
 for i in q:
@@ -80,12 +83,12 @@ a = q.axis       # returns axis of rotation
 q == q    # compare will return True
 q != q    # will return False
 
-print(q)  # pretty print
 w = q.w
 x = q.x
 y = q.y
 z = q.z
 
+print(q)  # pretty print => Quaternion(w,x,y,z)
 print(f"{q:.4f}") # print only 4 decimal places
 ```
 

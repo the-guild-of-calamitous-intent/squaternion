@@ -6,9 +6,7 @@
 ##############################################
 from math import sin, cos, atan2, pi, sqrt, asin, acos
 from dataclasses import dataclass, field
-# from enum import IntFlag
 
-# Axis = IntFlag("Axis", "x y z")
 rad2deg = 180.0/pi
 deg2rad = pi/180
 
@@ -90,8 +88,7 @@ class Quaternion:
 
         if isinstance(r, (float, int)):
             w=q.w*r; x=q.x*r; y=q.y*r; z=q.z*r
-        # elif isinstance(r, Quaternion):
-        else:
+        elif isinstance(r, Quaternion):
             # print(f"q:{self}  r:{r}")
             # print(f">> {r}: {type(r)} {r.__class__}")
             # print(f"++ {type(self)}")
@@ -100,8 +97,8 @@ class Quaternion:
             x = q.x*r.w + q.w*r.x - q.z*r.y + q.y*r.z
             y = q.y*r.w + q.z*r.x + q.w*r.y - q.x*r.z
             z = q.z*r.w - q.y*r.x + q.x*r.y + q.w*r.z
-        # else:
-        #     raise Exception("Quaternion.__mult__: invalide type:", type(r))
+        else:
+            raise Exception("Quaternion.__mult__: invalide type:", type(r))
 
         return Quaternion(w,x,y,z)
 
