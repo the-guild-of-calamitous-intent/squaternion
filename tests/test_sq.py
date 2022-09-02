@@ -1,4 +1,4 @@
-from squaternion import Quaternion
+from squaternion import *
 import pytest
 import numpy as np
 
@@ -54,6 +54,10 @@ def test_mult():
     a = Quaternion(1, 0, 0, 0)
     b = Quaternion(1, 0, 0, 0)
     assert 2*a*b*0.5 == Quaternion(1, 0, 0, 0), "multiplcation failed"
+
+    a = Quaternion(1,2,3,4)
+    b = Quaternion(5,6,7,8)
+    assert a*b == Quaternion(-60, 12, 30, 24)
 
 def test_rmul():
     assert 2*Quaternion()*0.5 == Quaternion(1, 0, 0, 0)
