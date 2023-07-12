@@ -4,6 +4,13 @@
 
 This is a simple quaternion library written in C++ and python.
 
+- License: ![GitHub](https://img.shields.io/github/license/MomsFriendlyRobotCompany/squaternion)
+- Python: ![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/MomsFriendlyRobotCompany/squaternion/python.yaml)
+![PyPI](https://img.shields.io/pypi/v/squaternion)
+- C++: ![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/MomsFriendlyRobotCompany/squaternion/cpp.yaml)
+
+
+
 # MIT License
 
 **Copyright (c) 2014 Mom's Friendly Robot Company**
