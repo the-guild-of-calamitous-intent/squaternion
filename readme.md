@@ -2,34 +2,7 @@
 
 # squaternion.cpp
 
-This is a c++ version of my python `squaternion` library.
-
-## Install Arduino
-
-You can either put it in your `Documents/Arduino/libraries` folder or make a symbolic link from where you keep the folder to where the Arduino IDE expects it to be. I store all of my github repo's in a `github` folder, so I know where they are.
-
-```bash
-ln -s <where you keep it> ~/Documents/Arduino/libraries
-```
-
-## Install Computer
-
-You can use standard `cmake` commands to use this.
-
-```bash
-cd squaternion.cpp
-mkdir build
-cd build
-cmake ..
-build
-```
-
-## Todo
-
-- [ ] Make a CPM
-- [x] Should I make this header only? It is pretty simple
-- [ ] Add `gtest` tests like `python` version
-- [x] Add a simple Arduino compile test
+This is a simple quaternion library written in C++ and python.
 
 # MIT License
 
