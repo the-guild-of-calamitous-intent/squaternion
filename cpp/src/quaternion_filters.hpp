@@ -27,7 +27,7 @@ public:
     qw        = q + 0.5 * dt * Quaternion(0.0f, wx, wy, wz);
     data_t an = 1.0f / sqrtf(ax * ax + ay * ay + az * az);
 
-    if (isinf(an)) return q;
+    if (std::isinf(an)) return q;
 
     ax *= an;
     ay *= an;

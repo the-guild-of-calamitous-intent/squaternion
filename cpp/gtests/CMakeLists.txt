@@ -17,12 +17,12 @@ endif()
 #----------------------------
 enable_testing()
 
-list(APPEND gci-gtests
+list(APPEND stests
     main-gtest
 )
 
-message(STATUS "gci::gTests ----------------------")
-foreach(name ${gci-gtests})
+message(STATUS "gTests ----------------------")
+foreach(name ${stests})
     # message(STATUS " -> ${name}")
     add_executable(${name} ${name}.cpp)
     target_link_libraries(${name}
@@ -32,4 +32,4 @@ foreach(name ${gci-gtests})
 endforeach()
 
 include(GoogleTest)
-gtest_discover_tests(${gci-gtests})
+gtest_discover_tests(${stests})
