@@ -1,4 +1,4 @@
-name: CheckPackage
+name: Python
 on: [push]
 
 jobs:
