@@ -1,0 +1,22 @@
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+Quaternion KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+normalize   KEYWORD2
+conjugate   KEYWORD2
+to_euler    KEYWORD2
+from_euler  KEYWORD2
+to_str      KEYWORD2
+rotate      KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+deg2rad    LITERAL1
+rad2deg    LITERAL1
