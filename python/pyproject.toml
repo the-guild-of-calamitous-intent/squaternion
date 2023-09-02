@@ -1,12 +1,12 @@
 [tool.poetry]
 name = "squaternion"
-version = "2023.07.21"
+version = "2023.09.02"
 description = "Some simple functions for quaternion math"
 authors = ["walchko <walchko@users.noreply.github.com>"]
 readme = "readme.md"
 license = "MIT"
 homepage = "https://pypi.org/project/squaternion/"
-repository = 'http://github.com/MomsFriendlyRobotCompany/squaternion'
+repository = 'https://github.com/the-guild-of-calamitous-intent/squaternion'
 # documentation = "http://..."
 keywords = ['rotations', 'quaternion', 'euler']
 classifiers = [
