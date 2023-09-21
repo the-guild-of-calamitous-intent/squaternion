@@ -18,14 +18,14 @@ Quaternion complementary filter (QCF) blends the sensor readings from an
 accelerometer and a gyro together to get a stable reading and more reliable
 overall state of a system.
  */
+template<typename T>
 class QCF {
 public:
-  QCF(data_t a = 0.02) : alpha(a) {}
+  QCF(T a = 0.02) : alpha(a) {}
 
-  Quaternion update(data_t ax, data_t ay, data_t az, data_t wx, data_t wy,
-                    data_t wz, data_t dt) {
-    qw        = q + 0.5 * dt * Quaternion(0.0f, wx, wy, wz);
-    data_t an = 1.0f / sqrtf(ax * ax + ay * ay + az * az);
+  QuaternionT<T> update(T ax, T ay, T az, T wx, T wy, T wz, T dt) {
+    qw        = q + 0.5 * dt * QuaternionT<T>(0.0, wx, wy, wz);
+    T an = 1.0f / sqrtf(ax * ax + ay * ay + az * az);
 
     if (std::isinf(an)) return q;
 
@@ -33,20 +33,20 @@ public:
     ay *= an;
     az *= an;
 
-    data_t roll  = atan2(ay, az);
-    data_t pitch = atan2(-ax, sqrtf(ay * ay + az * az));
-    data_t yaw   = 0.0f;
+    T roll  = atan2(ay, az);
+    T pitch = atan2(-ax, sqrtf(ay * ay + az * az));
+    T yaw   = 0.0;
 
-    qam          = Quaternion::from_euler(roll, pitch, yaw);
+    qam          = QuaternionT<T>::from_euler(roll, pitch, yaw);
 
-    q            = (1.0f - alpha) * qw + alpha * qam;
+    q            = (1.0 - alpha) * qw + alpha * qam;
     return q;
   }
 
-  Quaternion q; // current state estimate
+  QuaternionT<T> q; // current state estimate
 
 protected:
-  data_t alpha;   // ratio between the two quaternion estimates
-  Quaternion qw;  // quaternion from gyros
-  Quaternion qam; // quaternion from accels
+  T alpha;   // ratio between the two quaternion estimates
+  QuaternionT<T> qw;  // quaternion from gyros
+  QuaternionT<T> qam; // quaternion from accels
 };

@@ -43,7 +43,7 @@ target_include_directories(${PROJECT_NAME} INTERFACE src/)
 # Examples -----------------------------------------------------------
 message(STATUS "Building ${PROJECT_NAME} examples is ${BUILD_EXAMPLES}")
 if(BUILD_EXAMPLES)
-    add_subdirectory(examples)
+    # add_subdirectory(examples)
 endif()
 
 # Tests --------------------------------------------------------------
