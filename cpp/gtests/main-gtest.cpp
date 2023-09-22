@@ -76,3 +76,47 @@ TEST(squaternion, math_float) {
   q = 2.0f * qq / 2.0f;
   ASSERT_FLOAT_EQ(q.magnitude(), 1.0f);
 }
+
+TEST(squaternion, filter_awm) {
+  // no movement, gravity down
+  vect_t<double> a{0,0,1};
+  // no movement
+  vect_t<double> g{0,0,0};
+  // I "think", compass facing North
+  //    x would have a big value
+  //    y would be zero
+  //    z would be small
+  vect_t<double> m{1,0,.2};
+
+  QCF<double> qcf;
+  QuaternionT<double> q = qcf.update(a,g,m,0.001);
+
+
+  EXPECT_DOUBLE_EQ(q.w, 1.0);
+  EXPECT_DOUBLE_EQ(q.x, 0.0);
+  EXPECT_DOUBLE_EQ(q.y, 0.0);
+  EXPECT_DOUBLE_EQ(q.z, 0.0);
+
+  EXPECT_DOUBLE_EQ(m.x, 1.0);
+  EXPECT_DOUBLE_EQ(m.y, 0.0);
+  EXPECT_DOUBLE_EQ(m.z, 0.2);
+}
+
+
+TEST(squaternion, filter_aw) {
+  vect_t<double> a{0,0,1};
+  vect_t<double> g{0,0,0};
+
+  QCF<double> qcf;
+  QuaternionT<double> q = qcf.update(a,g,0.001);
+
+
+  EXPECT_DOUBLE_EQ(q.w, 1.0);
+  EXPECT_DOUBLE_EQ(q.x, 0.0);
+  EXPECT_DOUBLE_EQ(q.y, 0.0);
+  EXPECT_DOUBLE_EQ(q.z, 0.0);
+
+  EXPECT_DOUBLE_EQ(a.x, 0.0);
+  EXPECT_DOUBLE_EQ(a.y, 0.0);
+  EXPECT_DOUBLE_EQ(a.z, 1.0);
+}
