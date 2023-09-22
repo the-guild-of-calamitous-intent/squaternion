@@ -4,7 +4,14 @@
  * see LICENSE for full details
 \**************************************/
 #pragma once
-#include <math.h>
+// #include <math.h>
+#include <cmath>
+
+using std::sqrt;
+using std::atan2;
+using std::cos;
+using std::sin;
+using std::asin;
 
 
 /**

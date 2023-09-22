@@ -12,6 +12,10 @@ https://ahrs.readthedocs.io/en/latest/filters/complementary.html
 *********************************************/
 
 #include "quaternion.hpp"
+#include <cmath>
+
+using std::sqrt;
+using std::atan2;
 
 /*!
 Quaternion complementary filter (QCF) blends the sensor readings from an
@@ -25,7 +29,7 @@ public:
 
   QuaternionT<T> update(T ax, T ay, T az, T wx, T wy, T wz, T dt) {
     qw        = q + 0.5 * dt * QuaternionT<T>(0.0, wx, wy, wz);
-    T an = 1.0f / sqrtf(ax * ax + ay * ay + az * az);
+    T an = 1.0f / sqrt(ax * ax + ay * ay + az * az);
 
     if (std::isinf(an)) return q;
 
@@ -34,7 +38,7 @@ public:
     az *= an;
 
     T roll  = atan2(ay, az);
-    T pitch = atan2(-ax, sqrtf(ay * ay + az * az));
+    T pitch = atan2(-ax, sqrt(ay * ay + az * az));
     T yaw   = 0.0;
 
     qam          = QuaternionT<T>::from_euler(roll, pitch, yaw);
