@@ -101,9 +101,12 @@ class TiltCompass {
   TiltCompass() {}
 
   const QuaternionT<T> update(vect_t<T> a, vect_t<T> m) {
-    a.normalize();
+    // a.normalize();
+    if (!a.normalize()) return q;
     T roll  = atan2(a.y, a.z);
     T pitch = atan2(-a.x, sqrt(a.y * a.y + a.z * a.z));
+
+    if (!m.normalize()) return q;
 
     // WARNING: ahrs.readthedocs switches symbols for roll/pitch compared
     //          to other authors ... below is correct
@@ -116,7 +119,9 @@ class TiltCompass {
       m.x*cr + sr * (m.y * sp + m.z * cp)
     );
 
-    return QuaternionT<T>::from_euler(roll, pitch, yaw);
-
+    q = QuaternionT<T>::from_euler(roll, pitch, yaw);
+    return q;
   }
+
+  QuaternionT<T> q;
 };
