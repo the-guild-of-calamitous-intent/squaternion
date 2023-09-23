@@ -5,12 +5,6 @@
 \**************************************/
 #pragma once
 
-/********************************************
-Attitude from gravity: https://ahrs.readthedocs.io/en/latest/filters/tilt.html
-Quaternion complementary filter:
-https://ahrs.readthedocs.io/en/latest/filters/complementary.html
-*********************************************/
-
 #include "quaternion.hpp"
 #include <cmath>
 
@@ -37,52 +31,27 @@ struct vect_t {
 Quaternion complementary filter (QCF) blends the sensor readings from an
 accelerometer and a gyro together to get a stable reading and more reliable
 overall state of a system.
+
+Ref: https://ahrs.readthedocs.io/en/latest/filters/complementary.html
  */
 template<typename T>
 class QCF {
 public:
-  QCF(T a = 0.02) : alpha(a) {}
+  // alpha: [0.0. 1.0]
+  QCF(T a) : alpha(a) {}
 
-  // QuaternionT<T> update(const vect_t<T>& aa, const vect_t<T>& w, const vect_t<T>& mm, T dt) {
-  //   qw = q + 0.5 * dt * q * QuaternionT<T>(0.0, w.x, w.y, w.z);
-
-  //   vect_t<T> a = aa;
-  //   if (!a.normalize()) return q;
-
-  //   T roll  = atan2(a.y, a.z);
-  //   T pitch = atan2(-a.x, sqrt(a.y * a.y + a.z * a.z));
-
-  //   vect_t<T> m = mm;
-  //   if (!m.normalize()) return q;
-
-  //   T cr = cos(roll);
-  //   T sr = sin(roll);
-  //   T cp = cos(pitch);
-  //   T sp = sin(pitch);
-  //   T yaw = atan2(
-  //     m.z*sr - m.y*cr,
-  //     m.x*cp + sp * (m.y * sr + m.z * cr)
-  //   );
-
-  //   qam = QuaternionT<T>::from_euler(roll, pitch, yaw);
-
-  //   q = (1.0 - alpha) * qw + alpha * qam;
-  //   return q;
-  // }
-
-  QuaternionT<T> update(const vect_t<T>& aa, const vect_t<T>& w, const vect_t<T>& mm, T dt) {
+  QuaternionT<T> update(vect_t<T> a, const vect_t<T>& w, vect_t<T> m, T dt) {
     qw = q + 0.5 * dt * q * QuaternionT<T>(0.0, w.x, w.y, w.z);
 
-    vect_t<T> a = aa;
     if (!a.normalize()) return q;
 
     T roll  = atan2(a.y, a.z);
     T pitch = atan2(-a.x, sqrt(a.y * a.y + a.z * a.z));
 
-    vect_t<T> m = mm;
+    // m = mm;
     if (!m.normalize()) return q;
 
-    // WARNING: ahrs.readmedocs switches symbols for roll/pitch compared
+    // WARNING: ahrs.readthedocs switches symbols for roll/pitch compared
     //          to other authors ... below is correct
     T cr = cos(roll);
     T sr = sin(roll);
@@ -99,19 +68,18 @@ public:
     return q;
   }
 
-  QuaternionT<T> update(const vect_t<T>& aa, const vect_t<T>& w, T dt) {
+  QuaternionT<T> update(vect_t<T> a, const vect_t<T>& w, T dt) {
     qw = q + 0.5 * dt * q * QuaternionT<T>(0.0, w.x, w.y, w.z);
 
-    vect_t<T> a = aa;
     a.normalize();
 
     T roll  = atan2(a.y, a.z);
     T pitch = atan2(-a.x, sqrt(a.y * a.y + a.z * a.z));
-    T yaw   = 0.0;
+    T yaw   = 0.0; // need magnetometer to calculate this, so default to 0.0
 
     qam = QuaternionT<T>::from_euler(roll, pitch, yaw);
 
-    q = (1.0 - alpha) * qw + alpha * qam;
+    q = alpha * qw + (1.0 - alpha) * qam; // match ahrs.readthedocs
     return q;
   }
 
@@ -121,4 +89,34 @@ protected:
   T alpha;   // ratio between the two quaternion estimates
   QuaternionT<T> qw;  // quaternion from gyros
   QuaternionT<T> qam; // quaternion from accels
+  // vect_t<T> a, m; // accel and mag temp values
+};
+
+/*
+Ref: https://ahrs.readthedocs.io/en/latest/filters/tilt.html
+*/
+template<typename T>
+class TiltCompass {
+  public:
+  TiltCompass() {}
+
+  const QuaternionT<T> update(vect_t<T> a, vect_t<T> m) {
+    a.normalize();
+    T roll  = atan2(a.y, a.z);
+    T pitch = atan2(-a.x, sqrt(a.y * a.y + a.z * a.z));
+
+    // WARNING: ahrs.readthedocs switches symbols for roll/pitch compared
+    //          to other authors ... below is correct
+    T cr = cos(roll);
+    T sr = sin(roll);
+    T cp = cos(pitch);
+    T sp = sin(pitch);
+    T yaw = atan2(
+      m.z*sp - m.y*cp,
+      m.x*cr + sr * (m.y * sp + m.z * cp)
+    );
+
+    return QuaternionT<T>::from_euler(roll, pitch, yaw);
+
+  }
 };

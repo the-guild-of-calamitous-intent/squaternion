@@ -4,7 +4,6 @@
  * see LICENSE for full details
 \**************************************/
 #pragma once
-// #include <math.h>
 #include <cmath>
 
 using std::sqrt;

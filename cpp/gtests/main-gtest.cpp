@@ -1,13 +1,6 @@
 #include <gtest/gtest.h>
 #include <squaternion.hpp>
 
-// // Demonstrate some basic assertions.
-// TEST(squaternion, dummy) {
-//   // Expect two strings not to be equal.
-//   EXPECT_STRNE("hello", "world");
-//   // Expect equality.
-//   EXPECT_EQ(7 * 6, 42);
-// }
 
 TEST(squaternion, basics) {
   Quaternion q;
@@ -88,7 +81,7 @@ TEST(squaternion, filter_awm) {
   //    z would be small
   vect_t<double> m{1,0,.2};
 
-  QCF<double> qcf;
+  QCF<double> qcf(0.5);
   QuaternionT<double> q = qcf.update(a,g,m,0.001);
 
 
@@ -100,6 +93,22 @@ TEST(squaternion, filter_awm) {
   EXPECT_DOUBLE_EQ(m.x, 1.0);
   EXPECT_DOUBLE_EQ(m.y, 0.0);
   EXPECT_DOUBLE_EQ(m.z, 0.2);
+
+  // double check these copy by values are not
+  // changed and remain the same
+  a.x = 1;
+  a.y = 2;
+  a.z = 3;
+  m.x = 1;
+  m.y = 2;
+  m.z = 3;
+  qcf.update(a,g,m,0.001);
+  EXPECT_DOUBLE_EQ(a.x, 1.0);
+  EXPECT_DOUBLE_EQ(a.y, 2.0);
+  EXPECT_DOUBLE_EQ(a.z, 3.0);
+  EXPECT_DOUBLE_EQ(m.x, 1.0);
+  EXPECT_DOUBLE_EQ(m.y, 2.0);
+  EXPECT_DOUBLE_EQ(m.z, 3.0);
 }
 
 
@@ -107,7 +116,7 @@ TEST(squaternion, filter_aw) {
   vect_t<double> a{0,0,1};
   vect_t<double> g{0,0,0};
 
-  QCF<double> qcf;
+  QCF<double> qcf(0.5);
   QuaternionT<double> q = qcf.update(a,g,0.001);
 
 
@@ -119,4 +128,21 @@ TEST(squaternion, filter_aw) {
   EXPECT_DOUBLE_EQ(a.x, 0.0);
   EXPECT_DOUBLE_EQ(a.y, 0.0);
   EXPECT_DOUBLE_EQ(a.z, 1.0);
+}
+
+TEST(squaternion, tilt_compass) {
+  TiltCompass<double> tc;
+  // no movement, gravity down
+  vect_t<double> a{0,0,1};
+  // I "think", compass facing North
+  //    x would have a big value
+  //    y would be zero
+  //    z would be small
+  vect_t<double> m{1,0,.2};
+
+  Quaternion q = tc.update(a, m);
+  EXPECT_DOUBLE_EQ(q.w, 1.0);
+  EXPECT_DOUBLE_EQ(q.x, 0.0);
+  EXPECT_DOUBLE_EQ(q.y, 0.0);
+  EXPECT_DOUBLE_EQ(q.z, 0.0);
 }
