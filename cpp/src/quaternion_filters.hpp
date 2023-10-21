@@ -6,17 +6,25 @@
 #pragma once
 
 #include "quaternion.hpp"
+
+#if !defined(ARDUINO) && !defined(PICO_SDK)
 #include <cmath>
 
 using std::sqrt;
 using std::atan2;
+#endif
 
 template<typename T>
 struct vect_t {
   T x,y,z;
 
+  inline
+  T magnitude() {
+    return sqrt(x * x + y * y + z * z);
+  }
+
   bool normalize() {
-    T n = 1.0 / sqrt(x * x + y * y + z * z);
+    T n = 1.0 / magnitude();
     if (std::isinf(n)) return false;
 
     x *= n;
@@ -26,6 +34,18 @@ struct vect_t {
     return true;
   }
 };
+
+#if !defined(ARDUINO) && !defined(PICO_SDK)
+#include <ostream>
+std::ostream& operator<<(std::ostream &os, vect_t<double> const &v) {
+  os << "x: " << v.x << " y: " << v.y << " z: " << v.z;
+  return os;
+}
+std::ostream& operator<<(std::ostream &os, vect_t<float> const &v) {
+  os << "x: " << v.x << " y: " << v.y << " z: " << v.z;
+  return os;
+}
+#endif
 
 /*!
 Quaternion complementary filter (QCF) blends the sensor readings from an

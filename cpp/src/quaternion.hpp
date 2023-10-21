@@ -6,6 +6,10 @@
 #pragma once
 #include <cmath>
 
+#if !defined(ARDUINO)
+#include <string>
+#endif
+
 using std::sqrt;
 using std::atan2;
 using std::cos;
@@ -146,7 +150,7 @@ struct QuaternionT {
     return QuaternionT(w * scalar, x * scalar, y * scalar, z * scalar);
   }
 
-#ifdef ARDUINO
+#if defined(ARDUINO)
   String to_str() const {
     String ret = "Quaternion(w: " + String(w) + ", x: " + String(x) +
                  ", y: " + String(y) + ", z: " + String(z) + ")";
