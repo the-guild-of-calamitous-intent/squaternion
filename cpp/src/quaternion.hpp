@@ -211,7 +211,7 @@ std::ostream &operator<<(std::ostream &os, const QuaternionT<float> &q) {
   #include <Arduino.h>
   // #define T float
   using Quaternion = QuaternionT<float>;
-#else
+#elif defined(__linux__) || defined(APPLE)
   #include <cmath>
   #include <ostream>
   #include <string>
