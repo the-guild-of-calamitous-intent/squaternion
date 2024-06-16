@@ -1,31 +1,28 @@
 #include <cstdio>
-#include <iostream>
+#include <string>
 #include <squaternion.hpp>
 
 using namespace std;
 
-// std::ostream &operator<<(std::ostream &os, const Quaternion &q) {
-//     return os << q.to_str();
-// }
-
 int main() {
+  string s;
   Quaternion q(1, 2, 3, 4);
   q.normalize();
-  cout << "q: " << q.to_str() << endl;
+  printf("q: %s\n", q.to_str().c_str());
 
-  string s = q.to_str(); // need to save string to avoid dangling pointer
+  s = q.to_str(); // need to save string to avoid dangling pointer
   printf("%s\n", s.c_str());
 
   Quaternion bad(0, 0, 0, 0);
-  cout << "Bad: " << bad << endl;
+  printf("Bad %s\n", bad.to_str().c_str());
 
-  int err = bad.normalize();
+  // int err = bad.normalize();
 
-  if (err) {
-    printf("*** division by zero for Quaternion bad ***\n");
+  if (bad.normalize() > 0) {
+    printf("*** CORRECT: division by zero for Quaternion bad ***\n");
   }
   else {
-    cout << "Normalized bad: " << bad << " - how?" << endl;
+    printf("normalized bad ... how?\n");
   }
 
   double r, p, y;
@@ -33,14 +30,15 @@ int main() {
   printf("to_euler: %lf %lf %lf\n", r, p, y);
 
   Quaternion qq = Quaternion::from_euler(10, 20, 30, true); // from degrees
-  cout << "from_euler: " << qq.to_str() << endl;
+  printf("from_euler: %s\n", qq.to_str().c_str());
 
   Quaternion qdot = 0.5 * q * Quaternion(0, 0.1, -0.1, 0); // qdot - 1/2 * q * w
-  cout << "qdot: " << qdot << endl;
+  printf("qdot: %s\n", qdot.to_str().c_str());
 
   Quaternion a(1, 2, 3, 4);
   Quaternion b(5, 6, 7, 8);
-  cout << "a*b: " << a * b << endl;
+  Quaternion ans = 0.5*a*b/2.0;
+  printf("a*b: %s\n", ans.to_str().c_str());
 
   return 0;
 }

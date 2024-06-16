@@ -122,10 +122,11 @@ struct QuaternionT {
   // anwer = q(this) * r
   QuaternionT operator*(const QuaternionT &r) const {
     const QuaternionT *q = this;
-    return QuaternionT(r.w * q->w - r.x * q->x - r.y * q->y - r.z * q->z,
-                      r.w * q->x + r.x * q->w - r.y * q->z + r.z * q->y,
-                      r.w * q->y + r.x * q->z + r.y * q->w - r.z * q->x,
-                      r.w * q->z - r.x * q->y + r.y * q->x + r.z * q->w);
+    return QuaternionT(
+      r.w * q->w - r.x * q->x - r.y * q->y - r.z * q->z,
+      r.w * q->x + r.x * q->w - r.y * q->z + r.z * q->y,
+      r.w * q->y + r.x * q->z + r.y * q->w - r.z * q->x,
+      r.w * q->z - r.x * q->y + r.y * q->x + r.z * q->w);
   }
 
   // answer = q(this) + r
@@ -156,6 +157,8 @@ struct QuaternionT {
                  ", y: " + String(y) + ", z: " + String(z) + ")";
     return ret;
   }
+#elif defined(RASPBERRYPI_PICO) || defined(RASPBERRYPI_PICO_W)
+  void to_str() const {}
 #else
   std::string to_str() const {
     std::string ret =
@@ -163,6 +166,12 @@ struct QuaternionT {
         ", y: " + std::to_string(y) + ", z: " + std::to_string(z) + ")";
     return ret;
   }
+
+  // inline
+  // const char* to_cstr() const {
+  //   std::string s = to_str();
+  //   return s.c_str();
+  // }
 #endif
 
   /**
@@ -183,38 +192,29 @@ struct QuaternionT {
 
 
 // answer = scalar * q(this)
-static
-QuaternionT<float> operator*(float scalar, const QuaternionT<float> &q) {
-  return QuaternionT<float>(q.w * scalar, q.x * scalar, q.y * scalar, q.z * scalar);
+template <typename T>
+QuaternionT<T> operator*(double scalar, const QuaternionT<T> &q) {
+  return QuaternionT<T>(q.w * scalar, q.x * scalar, q.y * scalar, q.z * scalar);
 }
 
-static
-QuaternionT<double> operator*(double scalar, const QuaternionT<double> &q) {
-  return QuaternionT<double>(q.w * scalar, q.x * scalar, q.y * scalar, q.z * scalar);
+template <typename T>
+QuaternionT<T> operator*(float scalar, const QuaternionT<T> &q) {
+  return QuaternionT<T>(q.w * scalar, q.x * scalar, q.y * scalar, q.z * scalar);
 }
-
-#ifndef ARDUINO
-// won't use ostream on Arduino
-static
-std::ostream &operator<<(std::ostream &os, const QuaternionT<double> &q) {
-  return os << q.to_str();
-}
-
-static
-std::ostream &operator<<(std::ostream &os, const QuaternionT<float> &q) {
-  return os << q.to_str();
-}
-#endif
 
 
 #if defined(ARDUINO)
   #include <Arduino.h>
   // #define T float
   using Quaternion = QuaternionT<float>;
-#elif defined(__linux__) || defined(APPLE)
+#elif defined(RASPBERRYPI_PICO) || defined(RASPBERRYPI_PICO_W)
+  using Quaternion = QuaternionT<float>;
+#elif defined(__linux__) || defined(__APPLE__)
   #include <cmath>
   #include <ostream>
   #include <string>
   // #define T double
   using Quaternion = QuaternionT<double>;
+#else
+  #error "squaternion cannot determine OS type"
 #endif

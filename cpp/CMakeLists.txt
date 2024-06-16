@@ -1,9 +1,13 @@
-cmake_minimum_required(VERSION 3.10)
-PROJECT(squaternion VERSION "2023.02.18")
+cmake_minimum_required(VERSION 3.25)
+PROJECT(squaternion VERSION "2024.06.16")
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
+
+if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+  add_compile_options(-Wall -Wextra -Wpedantic)
+endif()
 
 
 if(PROJECT_IS_TOP_LEVEL)
