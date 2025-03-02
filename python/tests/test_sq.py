@@ -33,6 +33,11 @@ def test_norm_mag():
     q = Quaternion(0, 0, 0, 0)
     assert q.magnitude == 0.0
 
+
+def test_norm_unit():
+    q = Quaternion(1, 1, 1, 1)
+    assert q.normalize == q.unit
+
 def test_compare():
     a = Quaternion(1,1,1,1)
     b = Quaternion(1,0,0,1)
@@ -72,6 +77,32 @@ def test_rotation_matrix():
 
     with pytest.raises(NotImplementedError):
         Quaternion.from_rot(r)
+
+    # test angle / axis
+    for angle in [0, 45, 90, 270, -90, -45, -135]:
+      q = Quaternion.from_angle_axis(angle, [1,0,0], True)
+      r = q.to_rot()
+      assert np.isclose(r[0][0], 1.0)
+      assert np.isclose(r[1][1], np.cos(angle/180*np.pi))
+      assert np.isclose(r[1][2], -np.sin(angle/180*np.pi))
+      assert np.isclose(r[2][1], np.sin(angle/180*np.pi))
+      assert np.isclose(r[2][2], np.cos(angle/180*np.pi))
+
+      q = Quaternion.from_angle_axis(angle, [0,1,0], True)
+      r = q.to_rot()
+      assert np.isclose(r[1][1], 1.0)
+      assert np.isclose(r[0][0], np.cos(angle/180*np.pi))
+      assert np.isclose(r[0][2], np.sin(angle/180*np.pi))
+      assert np.isclose(r[2][0], -np.sin(angle/180*np.pi))
+      assert np.isclose(r[2][2], np.cos(angle/180*np.pi))
+
+      q = Quaternion.from_angle_axis(angle, [0,0,1], True)
+      r = q.to_rot()
+      assert np.isclose(r[0][0], np.cos(angle/180*np.pi))
+      assert np.isclose(r[0][1], -np.sin(angle/180*np.pi))
+      assert np.isclose(r[1][0], np.sin(angle/180*np.pi))
+      assert np.isclose(r[1][1], np.cos(angle/180*np.pi))
+      assert np.isclose(r[2][2], 1.0)
 
 def test_eq():
     assert Quaternion(1,1,1,1) == Quaternion(1,1,1,1)

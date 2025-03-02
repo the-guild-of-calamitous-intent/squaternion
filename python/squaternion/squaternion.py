@@ -51,7 +51,9 @@ class Quaternion:
             yield i
 
     def __getitem__(self, indx):
-        """Enables indexing: q[0] => q.w"""
+        """
+        Enables indexing: q[0] => q.w or q[-1] ==> q.z
+        """
         return self.to_tuple()[indx]
 
     # def __truediv__(self, a):
@@ -220,6 +222,10 @@ class Quaternion:
         return Quaternion(w, x, y, z)
 
     @property
+    def unit(self):
+      return self.normalize
+
+    @property
     def scalar(self):
         """Returns the scalar component of the quaternion"""
         return self.w
@@ -262,18 +268,22 @@ class Quaternion:
 
     @staticmethod
     def from_angle_axis(angle, axis, degrees=False):
-        """Why would I need this?"""
-        # raise NotImplementedError("Quaternion.from_axis_angle")
+        """
+        Performs a rotation around an axis by an angle:
+        w = cos(angle/2)
+        x,y,z = axis * sin(angle/2)
+        """
         if degrees:
             angle *= deg2rad
 
         w = cos(angle/2)
         s = sin(angle/2)
-        n = sqrt(axis[0]*axis[0]+axis[1]*axis[1]+axis[2]*axis[2])
-        if n < 1e-6:
-            raise ZeroDivisionError(f'Quaternion.normalize: div by {n}')
-        n = 1/n
-        return Quaternion(w, s*axis[0]*n, s*axis[1]*n, s*axis[2]*n)
+        # n = sqrt(axis[0]*axis[0]+axis[1]*axis[1]+axis[2]*axis[2])
+        # if n < 1e-6:
+        #     raise ZeroDivisionError(f'Quaternion.normalize: div by {n}')
+        # n = 1/n
+        # return Quaternion(w, s*axis[0]*n, s*axis[1]*n, s*axis[2]*n)
+        return Quaternion(w, s*axis[0], s*axis[1], s*axis[2]).normalize
 
     @staticmethod
     def from_euler(roll, pitch, yaw, degrees=False):

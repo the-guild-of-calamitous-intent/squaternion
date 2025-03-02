@@ -1,14 +1,5 @@
-include(FetchContent)
-
-# GTest -----------------
-FetchContent_Declare(gtest
-  GIT_REPOSITORY "https://github.com/google/googletest"
-  GIT_TAG "origin/main"
-  SOURCE_DIR "${CMAKE_BINARY_DIR}/_deps/gtest"
-)
-# set(EXAMPLES OFF CACHE INTERNAL "Dont build examples")
-FetchContent_MakeAvailable(gtest)
-if(gtest_POPULATED)
+find_package(GTest REQUIRED)
+if(GTest_FOUND)
     message(STATUS "=> Found gtest")
 else()
     message(STATUS "*** Didn't find gtest")
