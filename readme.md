@@ -2,12 +2,9 @@
 
 # squaternion
 
-This is a simple quaternion library written in C++ and python.
+This is a simple quaternion library written in C, C++ and python.
 
 - License: ![GitHub](https://img.shields.io/github/license/MomsFriendlyRobotCompany/squaternion)
-- Python: ![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/MomsFriendlyRobotCompany/squaternion/python.yaml)
-![PyPI](https://img.shields.io/pypi/v/squaternion)
-- C++: ![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/MomsFriendlyRobotCompany/squaternion/cpp.yaml)
 
 
 
