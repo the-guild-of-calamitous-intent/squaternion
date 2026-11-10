@@ -2,7 +2,6 @@
 
 # Simple Quaternions (`squaternion`)
 
-[![Actions Status](https://github.com/MomsFriendlyRobotCompany/squaternion/workflows/CheckPackage/badge.svg)](https://github.com/MomsFriendlyRobotCompany/squaternion/actions)
 ![GitHub](https://img.shields.io/github/license/MomsFriendlyRobotCompany/squaternion)
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/squaternion)
 ![PyPI](https://img.shields.io/pypi/v/squaternion)
@@ -18,8 +17,9 @@ It should be easier to get on embedded python systems without having to build
 
 ## Install
 
-```
-pip install squaternion
+```bash
+pip install squaternion   # pull from pypi
+pip install -e .          # development
 ```
 
 ## Usage
